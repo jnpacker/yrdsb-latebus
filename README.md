@@ -6,8 +6,14 @@ You can find your late bus
 config:
   webhook:
   - "https://maker.ifttt.com/trigger/goingtobelate/with/key...........?value1="
-  morningbus: "MYSCHOOL PS</td><td>9999"
-  afternoonbus: "MYSCHOOL PS</td><td>1111"
+  morningbus:
+    bus_check: "MYSCHOOL PS</td><td>9999"
+    start: "7:00"
+    stop: "8:00"
+  afternoonbus:
+    bus_check: "MYSCHOOL PS</td><td>1111"
+    start: "15:00"
+    stop: "16:30"
 ```
 _**Note:** You must create an IFTTT webhook to notify or text you_
 
