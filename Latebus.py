@@ -28,7 +28,7 @@ def SendNotifications (msg_type):
         requests.post(webhook + msg_type, {})
 
 def Clate (start_hour, start_min, end_hour, end_min, buscity, textsearch, latebusfound, msg_type):
-    if ((vtime.hour == start_hour and vtime.minute >= start_min) or (vtime.hour == end_hour and vtime.minute <= end_min)):
+    if (vtime.hour == int(start_hour) and vtime.minute >= int(start_min)) or (vtime.hour == int(end_hour) and vtime.minute <= int(end_min)):
         resp = requests.get(buscity)
         if resp.text.find(textsearch) > 0:
             print("my bus is " + msg_type + ": "+ str(vtime.hour) + ":" + str(vtime.minute))
@@ -72,7 +72,7 @@ while True:
         latebusfound = True
 
     else:
-        print("Did not check. Checking happens at " + str(config["config"]["morningbus"]["start"]) + " - " + str(config["config"]["morningbus"]["stop"]) + " and " + str(config["config"]["afternoonbus"]["start"]) + " - " + str(config["config"]["afternoonbus"]["stop"]) + ". Current time: " + str(vtime.hour) + ":" + str(vtime.minute) + " " + str(tz))
+        print("Did not check. Checking happens at " + str(config["config"]["morningbus"]["start"]) + " - " + str(config["config"]["morningbus"]["stop"]) + " and " + str(config["config"]["afternoonbus"]["start"]) + " - " + str(config["config"]["afternoonbus"]["stop"]) + ". Current time: " + str(vtime.hour) + ":" + vtime.strftime("%M") + " " + str(tz))
         latebusfound = False
 
     print("I will check again in 60s...")
