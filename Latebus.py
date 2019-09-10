@@ -25,7 +25,9 @@ with open('latebus-config.yaml', 'r') as file:
 def SendNotifications (msg_type):
     print("Sending notifications")
     for webhook in config["config"]["webhook"]:
-        requests.post(webhook + msg_type, {})
+        resp = requests.post(webhook + msg_type, {})
+        if resp.status_code != 200:
+            print("Failed webhook: " + webhook)
 
 def Clate (start_hour, start_min, end_hour, end_min, buscity, textsearch, latebusfound, msg_type):
     if (vtime.hour == int(start_hour) and vtime.minute >= int(start_min)) or (vtime.hour == int(end_hour) and vtime.minute <= int(end_min)):
