@@ -13,5 +13,6 @@ RUN python -m pip install pyyaml
 RUN python -m pip install timezones
 RUN python -m pip install pytz
 RUN python -m pip install datetime
+RUN python -m pip install pychromecast
 
 USER 1001
