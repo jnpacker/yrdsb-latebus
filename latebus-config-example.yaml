@@ -1,5 +1,6 @@
 config:
   timezone: "US/Eastern"
+  late_message: "https://raw.githubusercontent.com/codingpackman/yrdsb-latebus/master/late-bus.mp3"
   webhook:
   - "https://maker.ifttt.com/trigger/MY_IFTTT_EVENT_NAME/with/key/*****?value1="
   morningbus:

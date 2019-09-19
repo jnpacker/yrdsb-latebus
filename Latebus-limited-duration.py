@@ -19,6 +19,7 @@ import pytz
 from pytz import timezone
 import datetime
 import os
+import chromecast
 
 with open('latebus-config.yaml', 'r') as file:
     config = yaml.load(file)
@@ -29,7 +30,7 @@ def SendNotifications (msg_type):
         resp = requests.post(webhook + msg_type, {})
         if resp.status_code != 200:
             print("Failed webhook: " + webhook + " status-code: " + str(resp.status_code))
-
+    message_cast(config["config"]["late_message"])
 
 def checkBus(buscity, textsearch, msg_type):
     resp = requests.get(buscity)
