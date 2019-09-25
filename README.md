@@ -31,7 +31,7 @@ Setup your IFTTT webhooks here: https://ifttt.com/maker_webhooks
 ## Run as a docker container
 ---
 ### Long running docker container (Daemon)
-1. Create the `latebus-config.yaml` file, by editing and saving `latebus-config-example.yaml`. 
+1. Create the `latebus-config.yaml` file, by editing and saving `latebus-config-example.yaml`.
 2. Build your container image from the root directory of this repository.
 ```bash
 cp Dockerfile.template Dockerfile
@@ -42,7 +42,7 @@ docker build . -t latebus:latest
 
 build.bat
 ```
-4. Run your container image with 
+4. Run your container image with
 ```bash
 docker run -d --restart unless-stopped --name latebus latebus
 ```
@@ -57,6 +57,13 @@ _**Note:** This runs the container as non-interactive. It will start with your s
 - SCHOOL_NAME     This is the name of the school
 - BUS_NUMBER      This is the bus number<br><br>
 _**Note:** The `SCHOOL_NAME` and `BUS_NUMBER` are concatonated together with `</td><td>` for the search term. This is because the bus numbers are used more then once for different schools in the table on School Bus City_
+
+```
+export CHECK_URL=http://net.schoolbuscity.com/latebus
+export CHECK_DURATION=1
+export SCHOOL_NAME=Yorkbus
+export BUS_NUMBER=1111
+```
 
 3. Add the following to a scheduled task (Windows) or cronjob. <br>
 ```bash
