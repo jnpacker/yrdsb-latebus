@@ -34,8 +34,16 @@ def SendNotifications (msg_type):
             print("Failed webhook: " + webhook + " status-code: " + str(resp.status_code))
         message_cast(config["config"]["late_message"])
 
-def checkBus(buscity, school_name, bus_number, msg_type):
+def checkCancel(buscity, textsearch, msg_type):
+    resp = requests.get(buscity)
+    print("Queried " + buscity + " and received status-code: " + str(resp.status_code))
+    if resp.text.find(textsearch) > 0:
+        print("my bus is " + msg_type + ": "+ str(vtime.hour) + ":" + str(vtime.minute))
+        SendNotifications(msg_type)
+        exit()
 
+
+def checkBus(buscity, school_name, bus_number, msg_type):
     resp = requests.get(buscity)
     # Panda HTML to table library
     bus_tables = pd.read_html(resp.text)
@@ -61,9 +69,9 @@ while attempts < duration:
     vtime = datetime.datetime.now(tz)
 
     # We look for cancelled buses first
-    #checkBus(url,                                                      # URL to check
-    #         "YORK REGION DISTRICT school boards are cancelled ",      # Search string to match
-    #         "CANCELLED")                                              # Message
+    checkCancel(url,                                                      # URL to check
+             "YORK REGION DISTRICT school boards are cancelled ",      # Search string to match
+             "CANCELLED")                                              # Message
     checkBus(url+"/latebus",school, bus_number,"DELAYED")
 
     print("Nothing to do. Check again in 60s...")
