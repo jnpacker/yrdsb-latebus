@@ -35,9 +35,8 @@ def SendNotifications (msg_type):
         message_cast(config["config"]["late_message"])
 
 def checkBus(buscity, school_name, bus_number, msg_type):
-    print(buscity)
+
     resp = requests.get(buscity)
-    print(resp.text)
     # Panda HTML to table library
     bus_tables = pd.read_html(resp.text)
     table = bus_tables[0]
@@ -65,8 +64,7 @@ while attempts < duration:
     #checkBus(url,                                                      # URL to check
     #         "YORK REGION DISTRICT school boards are cancelled ",      # Search string to match
     #         "CANCELLED")                                              # Message
-    print(url)
-    checkBus(url,school, bus_number,"DELAYED")
+    checkBus(url+"/latebus",school, bus_number,"DELAYED")
 
     print("Nothing to do. Check again in 60s...")
     time.sleep(60)
