@@ -15,6 +15,9 @@ RUN python -m pip install timezones
 RUN python -m pip install pytz
 RUN python -m pip install datetime
 RUN python -m pip install pychromecast
+RUN python -m pip install pandas
+RUN python -m pip install html5lib
 RUN python -m pip install BeautifulSoup4 
+RUN python -m pip install lxml
 
 USER 1001
