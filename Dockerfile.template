@@ -3,6 +3,7 @@ FROM registry.access.redhat.com/ubi8/python-36
 # Add the program and the configuration file
 ADD ./Latebus.py .
 ADD ./Latebus-limited-duration.py .
+ADD ./chromecast.py .
 ADD ./latebus-config.yaml .
 
 # Install dependencies
