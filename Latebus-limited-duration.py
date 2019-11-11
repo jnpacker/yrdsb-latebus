@@ -32,7 +32,7 @@ def SendNotifications (msg_type):
         resp = requests.post(webhook + msg_type, {})
         if resp.status_code != 200:
             print("Failed webhook: " + webhook + " status-code: " + str(resp.status_code))
-        message_cast(config["config"]["late_message"])
+    message_cast(config["config"]["late_message"])
 
 def checkCancel(buscity, textsearch, msg_type):
     resp = requests.get(buscity)
