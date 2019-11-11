@@ -20,6 +20,8 @@ from pytz import timezone
 import datetime
 import os
 import chromecast
+import pandas as pd
+import html5lib
 
 with open('latebus-config.yaml', 'r') as file:
     config = yaml.load(file)
@@ -32,7 +34,7 @@ def SendNotifications (msg_type):
             print("Failed webhook: " + webhook + " status-code: " + str(resp.status_code))
     message_cast(config["config"]["late_message"])
 
-def checkBus(buscity, textsearch, msg_type):
+def checkCancel(buscity, textsearch, msg_type):
     resp = requests.get(buscity)
     print("Queried " + buscity + " and received status-code: " + str(resp.status_code))
     if resp.text.find(textsearch) > 0:
@@ -40,12 +42,26 @@ def checkBus(buscity, textsearch, msg_type):
         SendNotifications(msg_type)
         exit()
 
+
+def checkBus(buscity, school_name, bus_number, msg_type):
+    resp = requests.get(buscity)
+    # Panda HTML to table library
+    bus_tables = pd.read_html(resp.text)
+    table = bus_tables[0]
+    print("Queried " + buscity + " and received status-code: " + str(resp.status_code))
+    for (idx, row) in table.iterrows():
+        #if resp.text.find(textsearch) > 0: # Deprivated
+        if row['School'] == school_name and row['Route'] == bus_number:
+            print("my bus is " + msg_type + ": "+ str(vtime.hour) + ":" + str(vtime.minute))
+            SendNotifications(msg_type)
+            exit()
+
 attempts = 0
 duration = int(os.environ["CHECK_DURATION"])
 url = os.environ["CHECK_URL"]
 school = os.environ["SCHOOL_NAME"]
 bus_number = os.environ["BUS_NUMBER"]
-check_string = school + "</td><td>" + bus_number
+#check_string = school + "</td><td>" + bus_number #Depracated
 
 while attempts < duration:
 
@@ -53,11 +69,10 @@ while attempts < duration:
     vtime = datetime.datetime.now(tz)
 
     # We look for cancelled buses first
-    checkBus(url,                                                      # URL to check
+    checkCancel(url,                                                      # URL to check
              "YORK REGION DISTRICT school boards are cancelled ",      # Search string to match
              "CANCELLED")                                              # Message
-
-    checkBus(url+"/latebus", check_string,"DELAYED")
+    checkBus(url+"/latebus",school, bus_number,"DELAYED")
 
     print("Nothing to do. Check again in 60s...")
     time.sleep(60)

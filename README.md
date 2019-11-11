@@ -59,7 +59,7 @@ _**Note:** This runs the container as non-interactive. It will start with your s
 _**Note:** The `SCHOOL_NAME` and `BUS_NUMBER` are concatonated together with `</td><td>` for the search term. This is because the bus numbers are used more then once for different schools in the table on School Bus City_
 
 ```
-export CHECK_URL=http://net.schoolbuscity.com/latebus
+export CHECK_URL=http://net.schoolbuscity.com
 export CHECK_DURATION=1
 export SCHOOL_NAME=Yorkbus
 export BUS_NUMBER=1111
