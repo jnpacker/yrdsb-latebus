@@ -32,7 +32,7 @@ def SendNotifications (msg_type):
         resp = requests.post(webhook + msg_type, {})
         if resp.status_code != 200:
             print("Failed webhook: " + webhook + " status-code: " + str(resp.status_code))
-    message_cast(config["config"]["late_message"])
+    chromecast.message_cast(config["config"]["late_message"])
 
 def checkCancel(buscity, textsearch, msg_type):
     resp = requests.get(buscity)
@@ -51,7 +51,7 @@ def checkBus(buscity, school_name, bus_number, msg_type):
     print("Queried " + buscity + " and received status-code: " + str(resp.status_code))
     for (idx, row) in table.iterrows():
         #if resp.text.find(textsearch) > 0: # Deprivated
-        if row['School'] == school_name and row['Route'] == bus_number:
+        if row['School'].casefold() == school_name.casefold() and row['Route'] == bus_number:
             print("my bus is " + msg_type + ": "+ str(vtime.hour) + ":" + str(vtime.minute))
             SendNotifications(msg_type)
             exit()
